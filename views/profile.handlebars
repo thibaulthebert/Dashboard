@@ -1,0 +1,62 @@
+<div class="container">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand active" href="/">Dashboard</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Dashboard</a></li>
+        <li class="active"><a href="/profile">{{user.name}}</a></li>
+        <li><a href="/users/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="btn-toolbar">
+  <div class="container">
+  {{#if user.twitchName}}
+    <button style="background-color:green">You're connected on the {{user.twitchName}}'s Twitch account !</button>
+  {{else}}
+    <button onclick="window.location.href='http://localhost:8080/auth/twitch'" style="background-color: gray">
+      You're not connected to twitch, so you'll not have access to any of Twitch services.
+    </button>
+  {{/if}}
+  {{#if user.steamId}}
+    <button style="background-color:green">You're connected on the {{user.steamName}} steam account !</button>
+  {{else}}
+    <button onclick="window.location.href='http://localhost:8080/auth/steam'" style="background-color: gray">
+      You're not connected to steam, so you'll not have access to any of steam services.
+    </button>
+  {{/if}}
+  </div>
+</div>
+  <div class="row body">
+    <div class="col-lg-12">
+      {{#if success_msg}}
+        <div class="alert alert-success">{{success_msg}}</div>
+      {{/if}}
+
+      {{#if error_msg}}
+        <div class="alert alert-danger">{{error_msg}}</div>
+      {{/if}}
+
+      {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>
+      {{/if}}
+    </div>
+  </div>
+
+    <footer class="footer">
+      <p>&copy; DashboardBMTH</p>
+    </footer>
+</div>

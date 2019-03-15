@@ -1,0 +1,27 @@
+version: '2.1'
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    volumes:
+      - ./data:/data/db:Z
+    ports:
+      - "27017:27017"
+
+  webapp:
+    image: dev_dashboard_2018
+    build: .
+    restart: always
+    volumes:
+      - ./:/usr/src/app:Z
+    environment:
+      WAIT_HOSTS: mongo:27017
+    ports:
+      - 8080:8080
+    links:
+      - mongo
+    depends_on:
+      - mongo
+

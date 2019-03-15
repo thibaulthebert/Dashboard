@@ -1,0 +1,36 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.3.0",
+    "gridstack": "^0.4.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongodb": "^3.1.6",
+    "mongoose": "^5.3.1",
+    "passport": "^0.4.0",
+    "passport-azure-ad-oauth2": "0.0.4",
+    "passport-local": "^1.0.0",
+    "passport-office365-oauth2": "0.0.3",
+    "passport-spotify": "^1.0.1",
+    "passport-steam": "^1.0.10",
+    "passport-totp": "0.0.2",
+    "passport-twitchtv": "^0.1.4",
+    "request": "^2.88.0",
+    "request-ip": "^2.1.1"
+  }
+}

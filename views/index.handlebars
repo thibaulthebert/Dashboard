@@ -1,0 +1,297 @@
+<div class="container">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand active" href="/">Dashboard</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="dropdown" onclick="weather();climat();clashRoyale();findArticle();twitch();steam();">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Add widget<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a>Choose the service :</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href='#' id="weatherWidget">Weather : City termperature</a></li>
+            <li><a href="#" id="climatWidget">Climat : City climate</a></li>
+            <li><a href="#" id="cRWidget">Clash royale : Get the next chest of your account</a></li>
+            <li><a href="#" id="articleWidget">Le Monde : Get article about something</a></li>
+            <li role="separator" class="divider"></li>
+            {{#if user.twitchName}}
+            <li><a href="#" id="twitchWidget">Twitch : Get informations about a channel</a></li>
+            {{/if}}
+            {{#if user.steamId}}
+            <li><a href="#" id="steamWidget">Steam : Time played of a game</a></li>
+            {{/if}}
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="/">Dashboard</a></li>
+        <li><a href="/profile">{{user.name}}</a></li>
+        <li><a href="/users/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="col-sm-9">
+    <h2>Your Dashboard</h2>
+</div>
+<button class="refreshBtn" id="removeAllWidget">Remove widgets</button>
+<div class="row">
+  <div class="col-sm-12 well">
+    <div class="grid-stack">
+    </div>
+  </div>
+</div>
+
+<div class="row body">
+  <div class="col-lg-12">
+    {{#if success_msg}}
+      <div class="alert alert-success">{{success_msg}}</div>
+    {{/if}}
+    {{#if error_msg}}
+      <div class="alert alert-danger">{{error_msg}}</div>
+    {{/if}}
+    {{#if error}}
+      <div class="alert alert-danger">{{error}}</div>
+    {{/if}}
+  </div>
+</div>
+
+<footer class="footer">
+  <p>&copy; DashboardBMTH</p>
+</footer>
+
+{{!-------------------------- Weather Modal content --------------------------}}
+<div id="weatherModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" id="closeTemperature">&times;</span>
+      <h2>Weather : Enter a city name</h2>
+    </div>
+    <div class="modal-body">
+      <input type="text" name="cityName" id="cityName" placeholder="cityname">
+      <button class="addBtn" id="weatherBtn">
+        ADD
+      </button>
+    </div>
+  </div>
+</div>
+
+{{!-------------------------- Climat Modal content --------------------------}}
+<div id="climatModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" id="closeClimate">&times;</span>
+      <h2>Climate : Enter a city name</h2>
+    </div>
+    <div class="modal-body">
+      <input type="text" name="cityName" id="cityNameClimat" placeholder="cityname">
+      <button class="addBtn" id="climatBtn">
+        Add widget
+      </button>
+    </div>
+  </div>
+</div>
+
+{{!-------------------------- Steam Modal Content --------------------------}}
+<div id="steamModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" id="closeSteam">&times;</span>
+      <h2>Steam : Enter a game name</h2>
+    </div>
+    <div class="modal-body">
+      <input type="text" name="gameName" id="gameName" placeholder="gamename">
+      <button class="addBtn" id="steamBtn">
+        Add widget
+      </button>
+    </div>
+  </div>
+</div>
+
+{{!-------------------------- Clash Royale Modal Content --------------------------}}
+<div id="cRModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" id="closeCR">&times;</span>
+      <h2>Clash Royale: Enter a player ID</h2>
+    </div>
+    <div class="modal-body">
+      <input type="text" name="playerId" id="playerId" placeholder="playerId">
+      <button class="addBtn" id="cRBtn">
+        Add widget
+      </button>
+    </div>
+  </div>
+</div>
+
+{{!-------------------------- Twitch Modal Content --------------------------}}
+<div id="twitchModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" id="closeTwitch">&times;</span>
+      <h2>Twitch : Enter a channelname</h2>
+    </div>
+    <div class="modal-body">
+      <input type="text" name="twitchChannelName" id="twitchChannelName" placeholder="twitchChannelName">
+      <button class="addBtn" id="twitchBtn">ADD</button>
+    </div>
+  </div>
+</div>
+
+{{!-------------------------- Article Modal Content --------------------------}}
+<div id="articleModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" id="closeArticle">&times;</span>
+      <h2>Le Monde: enter a keyword</h2>
+    </div>
+    <div class="modal-body">
+      <input type="text" name="keyWord" id="keyWord" placeholder="key word">
+      <button class="addBtn" id="articleBtn">Add widget</button>
+    </div>
+  </div>
+</div>
+
+
+{{!-------------------------- Scipt pour ouvrir le steam modal --------------------------}}
+
+<script>
+  function steam() {
+    var modal = document.getElementById("steamModal");
+    var btn = document.getElementById("steamWidget");
+    var span = document.getElementById("closeSteam");
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+  }
+</script>
+
+{{!-------------------------- Scipt pour ouvrir le twitch modal --------------------------}}
+<script>
+  function twitch() {
+    var modal = document.getElementById("twitchModal");
+    var btn = document.getElementById("twitchWidget");
+    var span = document.getElementById("closeTwitch");
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+  }
+</script>
+
+{{!-------------------------- Scipt pour ouvrir le weather modal --------------------------}}
+<script>
+  function weather() {
+    var modal = document.getElementById("weatherModal");
+    var btn = document.getElementById("weatherWidget");
+    var span = document.getElementById("closeTemperature");
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+  }
+</script>
+
+{{!-------------------------- Scipt pour ouvrir le climat modal --------------------------}}
+<script>
+  function climat() {
+    var modal = document.getElementById("climatModal");
+    var btn = document.getElementById("climatWidget");
+    var span = document.getElementById("closeClimate");
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+  }
+</script>
+
+{{!-- Scipt pour ouvrir le clash royale modal --}}
+<script>
+  function clashRoyale() {
+    var modal = document.getElementById("cRModal");
+    var btn = document.getElementById("cRWidget");
+    var span = document.getElementById("closeCR");
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+  }
+</script>
+
+{{!-- Scipt pour ouvrir l'article modal --}}
+<script>
+  function findArticle() {
+    var modal = document.getElementById("articleModal");
+    var btn = document.getElementById("articleWidget");
+    var span = document.getElementById("closeArticle");
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+  }
+</script>
+
+{{!-- Scipt pour gerer gridstack --}}
+<script type="text/javascript">
+  $(function () {
+    $('.grid-stack').gridstack();
+  });
+</script>
+
+<script src="widget.js"></script>
+
+</div>
